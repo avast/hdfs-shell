@@ -35,12 +35,15 @@ There are 3 possible usecases:
 - JDK 1.8
 - It's working on both Windows/Linux Hadoop 2.6.0
 
-#### Configuring launch scripts
-HDFS-Shell is a standard Java application. For launch you need to define 2 things on your classpath:
-- all /lib/*.jar on classpath
-- path to directory with your Hadoop config files (hdfs-site.xml, core-site.xml etc.)
+#### Download
+- [Download binary] (https://github.com/avast/hdfs-shell/releases/download/v1.0.0/hdfs-shell-1.0.0.zip)
 
-Pre-defined launch scripts are located in deploy/bin directory. You can modify it locally as needed.
+#### Configuring launch scripts
+HDFS-Shell is a standard Java application. For its launch you need to define 2 things on your classpath:
+- all ```./lib/*.jar``` on classpath
+- path to directory with your Hadoop config files (hdfs-site.xml, core-site.xml etc.), on Linux it's usually located in /etc/hadoop/conf folder
+
+Pre-defined launch scripts are located in the zip file. You can modify it locally as needed.
 
 - for CLI UI run hdfs-shell.sh (without parameters) otherwise:
 - HDFS Shell can be launched directly with the command to execute - after completion, hdfs-shell will exit
@@ -48,12 +51,12 @@ Pre-defined launch scripts are located in deploy/bin directory. You can modify i
 
 #### Possible commands inside shell
 
-- type help to get list of all supported commands 
-- clear or cls to clear screen
-- exit or quit to exit the shell
+- type ```help``` to get list of all supported commands
+- ```clear``` or ```cls``` to clear screen
+- ```exit``` or ```quit``` or just ```q``` to exit the shell
 - for calling system command type ```! <command>``` , eg. ```! echo hello``` will call the system command echo
 - type (hdfs) command only without any parameters to get its parameter description, eg. ```ls``` only
-- script <file_path> to execute commands from file
+- ```script <file_path>``` to execute commands from file
 
 ### Running Daemon mode
 ![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screenshot2.png)
