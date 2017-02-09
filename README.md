@@ -3,7 +3,7 @@
 HDFS Shell is a HDFS manipulation tool to work with functions integrated in Hadoop DFS
 
 
-![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/web/screenshot.png)
+![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screenshot.png)
 
 ## Purpose
 
@@ -56,7 +56,7 @@ Possible commands inside shell
 - script <file_path> to execute commands from file
 
 Running Daemon mode
-![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/web/screenshot2.png)
+![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screenshot2.png)
 
 - run hdfs-shell-daemon.sh
 - then communicate with this daemon using UNIX domain sockets - eg.
