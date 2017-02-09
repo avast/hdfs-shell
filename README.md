@@ -46,7 +46,7 @@ Pre-defined launch scripts are located in deploy/bin directory. You can modify i
 - HDFS Shell can be launched directly with the command to execute - after completion, hdfs-shell will exit
 - launch HDFS with ```hdfs-shell.sh script <file_path>``` to execute commands from file
 
-Possible commands inside shell
+#### Possible commands inside shell
 
 - type help to get list of all supported commands 
 - clear or cls to clear screen
@@ -55,7 +55,7 @@ Possible commands inside shell
 - type (hdfs) command only without any parameters to get its parameter description, eg. ```ls``` only
 - script <file_path> to execute commands from file
 
-Running Daemon mode
+### Running Daemon mode
 ![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screenshot2.png)
 
 - run hdfs-shell-daemon.sh
