@@ -1,0 +1,83 @@
+buildscript {
+    repositories {
+        maven { url 'http://repo.spring.io/libs-release' }
+        maven { url 'http://repo.spring.io/plugins-release' }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
+        classpath 'org.springframework:springloaded:1.2.4.RELEASE'
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+
+        testOutputDir = file('build-test')
+    }
+}
+
+
+bootRun {
+    addResources = true
+}
+
+bootRepackage {
+    enabled = false
+    withJarTask = jar
+    executable = false
+}
+
+springBoot {
+    mainClass = "com.avast.server.hdfsshell.MainApp"
+}
+
+
+repositories {
+    maven { url 'https://artifactory.int.avast.com/artifactory/maven' }
+    maven { url 'http://repo.spring.io/libs-release' }
+    maven { url 'http://repo.spring.io/plugins-release' }
+}
+
+jar {
+
+    manifest {
+        attributes("Implementation-Version": project.getVersion())
+    }
+}
+
+mainClassName = "com.avast.server.hdfsshell.MainApp"
+
+
+allprojects {
+    tasks.withType(Javadoc).all { enabled = false }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter:1.4.3.RELEASE"){
+        exclude group: 'org.slf4j', module: 'log4j-over-slf4j'
+        exclude group: 'ch.qos.logback'
+    }
+    compile "org.springframework.shell:spring-shell:1.2.0.RELEASE"
+
+    compile 'com.kohlschutter.junixsocket:junixsocket-native-common:2.0.4'
+    compile 'com.kohlschutter.junixsocket:junixsocket-common:2.0.4'
+
+    compile "org.apache.hadoop:hadoop-client:2.6.0"
+
+    testCompile 'junit:junit:4.12'
+    testCompile("org.springframework.boot:spring-boot-starter-test:1.4.2.RELEASE")
+}
+
