@@ -59,8 +59,7 @@ Pre-defined launch scripts are located in deploy/bin directory. You can modify i
 ![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screenshot2.png)
 
 - run hdfs-shell-daemon.sh
-- then communicate with this daemon using UNIX domain sockets - eg.
-- echo ```ls /analytics | nc -U /var/tmp/hdfs-shell.sock```
+- then communicate with this daemon using UNIX domain sockets - eg. ```echo ls /analytics | nc -U /var/tmp/hdfs-shell.sock```
 
 ##Project programming info
 The project is using Gradle 3.x to build. By default it's using Hadoop 2.6.0, but it also has been succesfully tested with with version 2.7.x. 
