@@ -63,7 +63,8 @@ Pre-defined launch scripts are located in deploy/bin directory. You can modify i
 
 ##Project programming info
 The project is using Gradle 3.x to build. By default it's using Hadoop 2.6.0, but it also has been succesfully tested with with version 2.7.x. 
-It's based on [Spring Shell](https://github.com/spring-projects/spring-shell) (includes JLine component).
+It's based on [Spring Shell](https://github.com/spring-projects/spring-shell) (includes JLine component). Using Spring Shell mechanism you can easily add your own commands into HDFS Shell.
+(see com.avast.server.hdfsshell.commands.ContextCommands or com.avast.server.hdfsshell.commands.HadoopDfsCommands for more details)
 
 **All suggestions and merge requests are welcome.**
 
