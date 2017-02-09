@@ -64,6 +64,8 @@ allprojects {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+group = theGroup
+version = theVersion
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter:1.4.3.RELEASE"){
