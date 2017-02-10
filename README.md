@@ -1,7 +1,6 @@
 
 #HDFS Shell (tool)
-HDFS Shell is a HDFS manipulation tool to work with functions integrated in Hadoop DFS
-
+HDFS Shell is a HDFS manipulation tool to work with [functions integrated in Hadoop DFS](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html)
 
 ![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screencast.gif)
 
