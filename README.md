@@ -3,7 +3,7 @@
 HDFS Shell is a HDFS manipulation tool to work with functions integrated in Hadoop DFS
 
 
-![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screenshot.png)
+![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screencast.gif)
 
 ## Purpose
 
@@ -17,12 +17,12 @@ There are 3 possible usecases:
 
 #### Advantages UI against direct calling hdfs dfs function:
 
-- HDFS DFS initiate JVM for each command call, HDFS Shell does it only once - which means great speed enhancement when you need to work with HDFS more often
+- HDFS DFS initiates JVM for each command call, HDFS Shell does it only once - which means great speed enhancement when you need to work with HDFS more often
 - Commands can be used in short way - eg. ```hdfs dfs -ls /```, ```ls /``` - both will work
-- *HDFS path completion using TAB key*
+- **HDFS path completion using TAB key**
 - we can easily add any other HDFS manipulation function
 - there is a command history persisting in history log (~/.hdfs-shell/hdfs-shell.log)
-- *support for relative directory + commands ```cd``` and ```pwd```*
+- **support for relative directory + commands ```cd``` and ```pwd```**
 
 #### Disadvantages UI against direct calling hdfs dfs function:
 
@@ -41,11 +41,11 @@ There are 3 possible usecases:
 #### Configuring launch scripts
 HDFS-Shell is a standard Java application. For its launch you need to define 2 things on your classpath:
 - all ```./lib/*.jar``` on classpath
-- path to directory with your Hadoop config files (hdfs-site.xml, core-site.xml etc.), on Linux it's usually located in /etc/hadoop/conf folder
+- path to directory with your Hadoop config files (hdfs-site.xml, core-site.xml etc.), on Linux it's usually located in /etc/hadoop/conf folder - without these files the HDFS Shell will work in local filesystem mode
 
 Pre-defined launch scripts are located in the zip file. You can modify it locally as needed.
 
-- for CLI UI run hdfs-shell.sh (without parameters) otherwise:
+- for CLI UI run ```hdfs-shell.sh``` (without parameters) otherwise:
 - HDFS Shell can be launched directly with the command to execute - after completion, hdfs-shell will exit
 - launch HDFS with ```hdfs-shell.sh script <file_path>``` to execute commands from file
 
