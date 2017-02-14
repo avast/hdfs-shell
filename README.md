@@ -6,9 +6,6 @@ HDFS Shell is a HDFS manipulation tool to work with [functions integrated in Had
 
 [![Build Status - Master](https://travis-ci.org/avast/hdfs-shell.svg?branch=master)](https://travis-ci.org/avast/hdfs-shell) ![Linux](https://img.shields.io/badge/os-linux-green.svg?style=flat) ![Windows](https://img.shields.io/badge/os-windows-green.svg?style=flat) ![Apache 2](https://img.shields.io/badge/license-Apache2-blue.svg?style=flat)
 
-* auto-gen TOC:
-{:toc}
-
 
 ## Purpose
 
