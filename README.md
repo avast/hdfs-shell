@@ -4,6 +4,12 @@ HDFS Shell is a HDFS manipulation tool to work with [functions integrated in Had
 
 ![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screencast.gif)
 
+[![Build Status - Master](https://travis-ci.org/avast/hdfs-shell.svg?branch=master)](https://travis-ci.org/avast/hdfs-shell) ![Linux](https://img.shields.io/badge/os-linux-green.svg?style=flat) ![Windows](https://img.shields.io/badge/os-windows-green.svg?style=flat) ![Apache 2](https://img.shields.io/badge/license-Apache2-blue.svg?style=flat)
+
+* auto-gen TOC:
+{:toc}
+
+
 ## Purpose
 
 There are 3 possible usecases:
@@ -37,7 +43,7 @@ There are 3 possible usecases:
 #### Download
 - [Download binary] (https://github.com/avast/hdfs-shell/releases/download/v1.0.0/hdfs-shell-1.0.0.zip)
 
-#### Configuring launch script(s)
+#### Configuring launch script(s) for your environment
 HDFS-Shell is a standard Java application. For its launch you need to define 2 things on your classpath:
 
 1. All ```./lib/*.jar``` on classpath
