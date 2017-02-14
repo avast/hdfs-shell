@@ -19,7 +19,7 @@ There are 3 possible usecases:
 - HDFS DFS initiates JVM for each command call, HDFS Shell does it only once - which means great speed enhancement when you need to work with HDFS more often
 - Commands can be used in short way - eg. ```hdfs dfs -ls /```, ```ls /``` - both will work
 - **HDFS path completion using TAB key**
-- we can easily add any other HDFS manipulation function
+- you can easily add any other HDFS manipulation function
 - there is a command history persisting in history log (~/.hdfs-shell/hdfs-shell.log)
 - **support for relative directory + commands ```cd``` and ```pwd```**
 
@@ -37,10 +37,12 @@ There are 3 possible usecases:
 #### Download
 - [Download binary] (https://github.com/avast/hdfs-shell/releases/download/v1.0.0/hdfs-shell-1.0.0.zip)
 
-#### Configuring launch scripts
+#### Configuring launch script(s)
 HDFS-Shell is a standard Java application. For its launch you need to define 2 things on your classpath:
-- all ```./lib/*.jar``` on classpath
-- path to directory with your Hadoop config files (hdfs-site.xml, core-site.xml etc.), on Linux it's usually located in /etc/hadoop/conf folder - without these files the HDFS Shell will work in local filesystem mode
+1. all ```./lib/*.jar``` on classpath
+2. path to directory with your Hadoop config files (hdfs-site.xml, core-site.xml etc.) - without these files the HDFS Shell will work in local filesystem mode
+  - on Linux it's usually located in ```/etc/hadoop/conf``` folder
+  - on Windows it's usually located in ```%HADOOP_HOME%\etc\hadoop\``` folder
 
 Pre-defined launch scripts are located in the zip file. You can modify it locally as needed.
 
@@ -57,11 +59,19 @@ Pre-defined launch scripts are located in the zip file. You can modify it locall
 - type (hdfs) command only without any parameters to get its parameter description, eg. ```ls``` only
 - ```script <file_path>``` to execute commands from file
 
+#####Additional commands
+For our purposes we also integrated following commands:
+- ```set showResultCodeON```  and ```set showResultCodeOFF``` - if it's enabled, it will write command result code after its completion
+- ```cd```, ```pwd```
+
+
 ### Running Daemon mode
 ![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screenshot2.png)
 
 - run hdfs-shell-daemon.sh
 - then communicate with this daemon using UNIX domain sockets - eg. ```echo ls /analytics | nc -U /var/tmp/hdfs-shell.sock```
+
+
 
 ##Project programming info
 The project is using Gradle 3.x to build. By default it's using Hadoop 2.6.0, but it also has been succesfully tested with with version 2.7.x. 
