@@ -90,5 +90,10 @@ It's based on [Spring Shell](https://github.com/spring-projects/spring-shell) (i
 For developing, add to JVM args in your IDE launch config dialog: 
 ``` -Djline.WindowsTerminal.directConsole=false -Djline.terminal=jline.UnsupportedTerminal```
 
+
+#### Known limitations & problems
+
+- There is a problem with a parsing of commands containing a file or directory including a space - eg. it's not possible to create directory ```My dir``` using command ```mkdir "My dir"``` 
+
 ###Contact
 Author&Maintainer: Ladislav Vitasek  - vitasek/@/avast.com
