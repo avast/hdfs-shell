@@ -43,8 +43,8 @@ There are 3 possible usecases:
 #### Configuring launch script(s) for your environment
 HDFS-Shell is a standard Java application. For its launch you need to define 2 things on your classpath:
 
-1. All ```./lib/*.jar``` on classpath
-2. Path to directory with your Hadoop config files (hdfs-site.xml, core-site.xml etc.) - without these files the HDFS Shell will work in local filesystem mode
+1. All ```./lib/*.jar``` on classpath (the dependencies ```./lib``` are included in the binary bundle or they are located in Gradle build/distributions/*.zip)
+2. Path to directory with your Hadoop Cluster config files (hdfs-site.xml, core-site.xml etc.) - without these files the HDFS Shell will work in local filesystem mode
  - on Linux it's usually located in ```/etc/hadoop/conf``` folder
  - on Windows it's usually located in ```%HADOOP_HOME%\etc\hadoop\``` folder
 

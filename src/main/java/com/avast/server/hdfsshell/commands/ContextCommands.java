@@ -103,19 +103,6 @@ public class ContextCommands implements CommandMarker {
         return configuration;
     }
 
-
-    public String convertToDir(String path) {
-        final String currentDir = getCurrentDir();
-        if (StringUtils.isEmpty(currentDir)) {
-            return path;
-        }
-        if (!path.startsWith("/")) {
-            return new Path(currentDir, path).toUri().getPath();
-        }
-        return path;
-    }
-
-
     private FileSystem getFileSystem() throws IOException {
         final Configuration conf = getConfiguration();
         return FileSystem.get(conf);
