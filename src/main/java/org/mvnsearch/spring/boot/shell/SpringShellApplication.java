@@ -78,7 +78,7 @@ public class SpringShellApplication {
                     new UnixServer(bootShim, env.getProperty("socket.filepath", "/var/tmp/hdfs-shell.sock")).run();
                 } else {
                     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                        System.out.print(AnsiOutput.toString(AnsiColor.DEFAULT, System.lineSeparator()));
+                        System.out.print(AnsiOutput.toString(AnsiColor.DEFAULT, System.lineSeparator(), AnsiColor.DEFAULT));
                     }));//another new line on exit from interactive mode
                     new Timer().schedule(new InitCompletionTimerTask(bootShim), 5000);// hack
                     bootShim.run();
@@ -88,6 +88,7 @@ public class SpringShellApplication {
             e.printStackTrace();
             return -1;
         } finally {
+            System.out.print(AnsiOutput.toString(AnsiColor.DEFAULT, " ", AnsiColor.DEFAULT));
             HandlerUtils.flushAllHandlers(Logger.getLogger(""));
         }
         return 0;
