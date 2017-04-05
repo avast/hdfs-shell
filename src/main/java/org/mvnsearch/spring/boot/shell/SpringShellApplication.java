@@ -6,6 +6,8 @@ import jline.console.ConsoleReader;
 import org.springframework.boot.Banner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.ansi.AnsiColor;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.shell.core.CommandResult;
@@ -75,7 +77,9 @@ public class SpringShellApplication {
                     final Environment env = ctx.getBean(Environment.class);
                     new UnixServer(bootShim, env.getProperty("socket.filepath", "/var/tmp/hdfs-shell.sock")).run();
                 } else {
-                    Runtime.getRuntime().addShutdownHook(new Thread(System.out::println));//another new line on exit from interactive mode
+                    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                        System.out.print(AnsiOutput.toString(AnsiColor.DEFAULT, System.lineSeparator()));
+                    }));//another new line on exit from interactive mode
                     new Timer().schedule(new InitCompletionTimerTask(bootShim), 5000);// hack
                     bootShim.run();
                 }
