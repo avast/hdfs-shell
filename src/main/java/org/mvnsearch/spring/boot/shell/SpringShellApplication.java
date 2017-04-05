@@ -72,6 +72,9 @@ public class SpringShellApplication {
                         System.out.println(commandResult.getResult());
                     }
                 }
+                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                    System.out.print(AnsiOutput.toString(AnsiColor.DEFAULT, " ", AnsiColor.DEFAULT));
+                }));//another new line on exit from interactive mode
             } else {
                 if (System.getProperty("daemon") != null) {
                     final Environment env = ctx.getBean(Environment.class);
