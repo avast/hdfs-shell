@@ -1,5 +1,5 @@
 
-#HDFS Shell UI (CLI tool)
+# HDFS Shell UI (CLI tool)
 HDFS Shell is a HDFS manipulation tool to work with [functions integrated in Hadoop DFS](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html)
 
 ![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screencast.gif)
@@ -8,7 +8,6 @@ HDFS Shell is a HDFS manipulation tool to work with [functions integrated in Had
 
 
 ## Purpose
-
 There are 3 possible usecases:
 
 - Running user interactive UI shell, inserting command by user
@@ -65,7 +64,7 @@ Pre-defined launch scripts are located in the zip file. You can modify it locall
 - type (hdfs) command only without any parameters to get its parameter description, eg. ```ls``` only
 - ```script <file_path>``` to execute commands from file
 
-#####Additional commands
+##### Additional commands
 For our purposes we also integrated following commands:
 - ```set showResultCodeON```  and ```set showResultCodeOFF``` - if it's enabled, it will write command result code after its completion
 - ```cd```, ```pwd```
@@ -79,14 +78,14 @@ For our purposes we also integrated following commands:
 
 
 
-##Project programming info
+## Project programming info
 The project is using Gradle 3.x to build. By default it's using Hadoop 2.6.0, but it also has been succesfully tested with version 2.7.x.
 It's based on [Spring Shell](https://github.com/spring-projects/spring-shell) (includes JLine component). Using Spring Shell mechanism you can easily add your own commands into HDFS Shell.
 (see com.avast.server.hdfsshell.commands.ContextCommands or com.avast.server.hdfsshell.commands.HadoopDfsCommands for more details)
 
 **All suggestions and merge requests are welcome.**
 
-####Other tech info:
+#### Other tech info:
 For developing, add to JVM args in your IDE launch config dialog: 
 ``` -Djline.WindowsTerminal.directConsole=false -Djline.terminal=jline.UnsupportedTerminal```
 
@@ -95,5 +94,5 @@ For developing, add to JVM args in your IDE launch config dialog:
 
 - There is a problem with a parsing of commands containing a file or directory including a space - eg. it's not possible to create directory ```My dir``` using command ```mkdir "My dir"``` 
 
-###Contact
+### Contact
 Author&Maintainer: Ladislav Vitasek  - vitasek/@/avast.com
