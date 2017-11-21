@@ -1,5 +1,6 @@
 package com.avast.server.hdfsshell.commands;
 
+import com.avast.server.hdfsshell.utils.BashUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.shell.Command;
 import org.apache.hadoop.fs.shell.CommandFactory;
@@ -404,13 +405,7 @@ public class HadoopDfsCommands implements CommandMarker {
     }
 
     String runCommand(String cmdName, String path) {
-        final String[] args;
-        if (path == null) {
-            args = new String[0];
-        } else {
-            args = path.trim().split(" ");
-        }
-        return runCommand(cmdName, args);
+        return runCommand(cmdName, BashUtils.parseArguments(path));
     }
 
 
