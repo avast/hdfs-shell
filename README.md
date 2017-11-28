@@ -72,7 +72,7 @@ For our purposes we also integrated following commands:
 
 
 ###### Edit Command
-Since the version 1.0.4 the simple command 'edit' is available. The command gets selected file from HDFS to the local temporary directory and launchs editor. Once the editor saves the file (with a result code 0), the file is uploaded back into HDFS (target file is overwritten).
+Since the version 1.0.4 the simple command 'edit' is available. The command gets selected file from HDFS to the local temporary directory and launches the editor. Once the editor saves the file (with a result code 0), the file is uploaded back into HDFS (target file is overwritten).
 By default the editor path is taken from ```$EDITOR``` environment variable. If ```$EDITOR``` is not set, ```vim``` (Linux, Mac) or ```notepad.exe``` (Windows) is used.
 
 ### Running Daemon mode
