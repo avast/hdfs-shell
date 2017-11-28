@@ -77,6 +77,7 @@ dependencies {
     compile 'com.kohlschutter.junixsocket:junixsocket-native-common:2.0.4'
     compile 'com.kohlschutter.junixsocket:junixsocket-common:2.0.4'
 
+    compile "org.apache.commons:commons-lang3:3.3.2"
     compile "org.apache.hadoop:hadoop-client:2.6.0"
 
     testCompile 'junit:junit:4.12'

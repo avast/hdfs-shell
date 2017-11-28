@@ -103,7 +103,7 @@ public class ContextCommands implements CommandMarker {
         return configuration;
     }
 
-    private FileSystem getFileSystem() throws IOException {
+    FileSystem getFileSystem() throws IOException {
         final Configuration conf = getConfiguration();
         return FileSystem.get(conf);
     }

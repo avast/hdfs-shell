@@ -68,7 +68,12 @@ Pre-defined launch scripts are located in the zip file. You can modify it locall
 For our purposes we also integrated following commands:
 - ```set showResultCodeON```  and ```set showResultCodeOFF``` - if it's enabled, it will write command result code after its completion
 - ```cd```, ```pwd```
+- ```edit 'my file'``` - see the config below
 
+
+###### Edit Command
+Since the version 1.0.4 the simple command 'edit' is available. The command gets selected file from HDFS to the local temporary directory and launchs editor. Once the editor saves the file (with a result code 0), the file is uploaded back into HDFS (target file is overwritten).
+By default the editor path is taken from ```$EDITOR``` environment variable. If ```$EDITOR``` is not set, ```vim``` (Linux, Mac) or ```notepad.exe``` (Windows) is used.
 
 ### Running Daemon mode
 ![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screenshot2.png)
