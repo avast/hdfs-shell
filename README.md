@@ -37,7 +37,7 @@ There are 3 possible usecases:
 - It's working on both Windows/Linux Hadoop 2.6.0
 
 #### Download
-- [Download binary](https://github.com/avast/hdfs-shell/releases/download/v1.0.4/hdfs-shell-1.0.4.zip)
+- [Download binary](https://github.com/avast/hdfs-shell/releases/download/v1.0.5/hdfs-shell-1.0.5.zip)
 
 #### Configuring launch script(s) for your environment
 HDFS-Shell is a standard Java application. For its launch you need to define 2 things on your classpath:
@@ -54,6 +54,7 @@ Pre-defined launch scripts are located in the zip file. You can modify it locall
 - for CLI UI run ```hdfs-shell.sh``` (without parameters) otherwise:
 - HDFS Shell can be launched directly with the command to execute - after completion, hdfs-shell will exit
 - launch HDFS with ```hdfs-shell.sh script <file_path>``` to execute commands from file
+- launch HDFS with ```hdfs-shell.sh xscript <file_path>``` to execute commands from file but ignore command errors (skip errors)
 
 #### Possible commands inside shell
 
@@ -63,6 +64,7 @@ Pre-defined launch scripts are located in the zip file. You can modify it locall
 - for calling system command type ```! <command>``` , eg. ```! echo hello``` will call the system command echo
 - type (hdfs) command only without any parameters to get its parameter description, eg. ```ls``` only
 - ```script <file_path>``` to execute commands from file
+- ```xscript <file_path>``` to execute commands from file but ignore command errors (skip errors)
 
 ##### Additional commands
 For our purposes we also integrated following commands:
