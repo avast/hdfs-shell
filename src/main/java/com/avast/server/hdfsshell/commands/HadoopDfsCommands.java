@@ -56,6 +56,14 @@ public class HadoopDfsCommands implements CommandMarker {
     }
 
 
+    @CliCommand(value = {"find", "hdfs dfs -find"}, help = "Finds all files that match the specified expression and applies selected actions to them.\n\tIf no path is specified then defaults to the current working directory. If no expression is specified then defaults to -print.")
+    public String find(
+            @CliOption(key = {"_raw_"}, help = "Finds all files that match the specified expression and applies selected actions to them.\n\tIf no path is specified then defaults to the current working directory. If no expression is specified then defaults to -print.") String path
+    ) {
+        return runCommand("find", path);
+    }
+
+
     @CliCommand(value = {"checksum", "hdfs dfs -checksum"}, help = "Dump checksum information for files that match the file pattern <src> to stdout.")
     public String checksum(
             @CliOption(key = {""}, help = "Dump checksum information for files that match the file pattern <src> to stdout.") String path
@@ -409,7 +417,7 @@ public class HadoopDfsCommands implements CommandMarker {
     }
 
 
-    String runCommand(String cmdName, String[] arguments)  {
+    String runCommand(String cmdName, String[] arguments) {
         final Configuration conf = contextCommands.getConfiguration();
 
         cmdName = "-" + cmdName;
