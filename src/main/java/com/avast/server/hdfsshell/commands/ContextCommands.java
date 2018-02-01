@@ -4,6 +4,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.security.UserGroupInformation;
 import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.annotation.CliAvailabilityIndicator;
 import org.springframework.shell.core.annotation.CliCommand;
@@ -12,14 +13,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @SuppressWarnings("SameParameterValue")
 @Component
 public class ContextCommands implements CommandMarker {
 
-    private volatile String currentDir;
-    private volatile Configuration configuration;
-    private volatile String homeDir;
+    private String currentDir;
+    private Configuration configuration;
+    private String homeDir;
 
     private boolean showResultCode = false;
     private boolean failOnError;
@@ -67,6 +69,36 @@ public class ContextCommands implements CommandMarker {
             return "Change directory failed! " + e.getMessage();
         }
         return "";
+    }
+
+    @CliCommand(value = "su", help = "Changes current active user [*experimental*]")
+    public synchronized String su(@CliOption(key = {""}, help = "su [<username>]") String newUser) throws IOException {
+        if (StringUtils.isEmpty(newUser)) {
+            return "No username is defined! ";
+        }
+//        else {
+//            newUser = BashUtils.parseArguments(newUser)[0];
+//        }
+        final FileSystem fs = getFileSystem();
+        final Path usersDir = new Path("/user");
+        if (fs.exists(usersDir)) {
+            final String finalNewUser = newUser;
+            final boolean foundUser = Arrays.stream(fs.listStatus(usersDir)).
+                    filter(FileStatus::isDirectory).
+                    anyMatch(fileStatus -> fileStatus.getPath().getName().equals(finalNewUser));
+            if (!foundUser) {
+                return "User " + newUser + " does not exist!";
+            }
+        }
+        System.setProperty("HADOOP_USER_NAME", newUser);
+        UserGroupInformation.loginUserFromSubject(null);
+        currentDir = null;
+        return "";
+    }
+
+    @CliCommand(value = "whoami", help = "Print effective username")
+    public synchronized String whoami() throws IOException {
+        return UserGroupInformation.getCurrentUser().getUserName();
     }
 
     public synchronized String getCurrentDir() {

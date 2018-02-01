@@ -44,7 +44,7 @@ public class EditCommands implements CommandMarker {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @CliCommand(value = "edit", help = "Get file to local file system, edit and put it back to HDFS")
-    public String set(@CliOption(key = {"_raw_"}, help = "File to edit") String path) throws IOException {
+    public String set(@CliOption(key = {""}, help = "File to edit") String path) throws IOException {
         if (StringUtils.isEmpty(path)) {
             return "You have to define path param";
         }
@@ -79,7 +79,7 @@ public class EditCommands implements CommandMarker {
         return "";
     }
 
-    private Path getFilePathForEdit(@CliOption(key = {"_raw_"}, help = "File to edit") String path) {
+    private Path getFilePathForEdit(@CliOption(key = {""}, help = "File to edit") String path) {
         Path p;
         if (!path.startsWith("/")) {
             p = new Path(contextCommands.getCurrentDir(), path);
