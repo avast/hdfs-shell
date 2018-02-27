@@ -102,7 +102,7 @@ For developing, add to JVM args in your IDE launch config dialog:
 #### Known limitations & problems
 
 - There is a problem with a parsing of commands containing a file or directory including a space - eg. it's not possible to create directory ```My dir``` using command ```mkdir "My dir"``` . This would be probably resolved with an upgrade to Spring Shell 2. 
-- It's not possible to remove root directory (```rm -R dir```) from root (```/```) directory. You have to use absolut path instead (```rm -R /dir```). It's caused by bug in Hadoop. See [HADOOP-15233](https://issues.apache.org/jira/browse/HADOOP-15233) for more details.
+- It's not possible to remove root directory (```rm -R dir```) from root (```/```) directory. You have to use absolut path instead (```rm -R /dir```). It's caused by bug in Hadoop. See [HADOOP-15233](https://issues.apache.org/jira/browse/HADOOP-15233) for more details. Removing directory from another cwd is not affected. 
 
 ### Contact
 Author&Maintainer: Ladislav Vitasek  - vitasek/@/avast.com
