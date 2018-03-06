@@ -24,6 +24,8 @@ There are 3 possible usecases:
 - you can easily add any other HDFS manipulation function
 - there is a command history persisting in history log (~/.hdfs-shell/hdfs-shell.log)
 - **support for relative directory + commands ```cd``` and ```pwd```**
+- advanced commands like ```su```, ```groups```, ```whoami```
+- customizable shell prompt
 
 #### Disadvantages UI against direct calling hdfs dfs function:
 
@@ -72,12 +74,20 @@ For our purposes we also integrated following commands:
 - ```cd```, ```pwd```
 - ```su <username>``` - ***experimental*** -  changes current active user - it won't probably work on secured HDFS (KERBEROS)
 - ```whoami``` - prints effective username
+- ```groups <username1 <username2,...>>``` - eg.```groups hdfs``` prints groups for given users, same as ```hdfs groups my_user my_user2``` functionality
 - ```edit 'my file'``` - see the config below
 
 
 ###### Edit Command
 Since the version 1.0.4 the simple command 'edit' is available. The command gets selected file from HDFS to the local temporary directory and launches the editor. Once the editor saves the file (with a result code 0), the file is uploaded back into HDFS (target file is overwritten).
 By default the editor path is taken from ```$EDITOR``` environment variable. If ```$EDITOR``` is not set, ```vim``` (Linux, Mac) or ```notepad.exe``` (Windows) is used.
+
+###### How to change command (shell) prompt
+HDFS Shell supports customized bash-like prompt setting!
+I implemented support for these switches listed in this [table](https://bash.cyberciti.biz/guide/Changing_bash_prompt) (include colors!, exclude ```\!, \#```).
+You can also use this [online prompt generator](http://ezprompt.net/) to create prompt value of your wish.
+To setup your favorite prompt simply add ```export HDFS_SHELL_PROMPT="value"``` to your .bashrc (or set env variable on Windows) and that's it. Restart HDFS Shell to apply change.
+Default value is currently set to ```\e[36m\u@\h \e[0;39m\e[33m\w\e[0;39m\e[36m\\$ \e[37;0;39m```.
 
 ### Running Daemon mode
 ![Image of HDFS-Shell](https://github.com/avast/hdfs-shell/blob/master/web/screenshot2.png)
@@ -101,7 +111,7 @@ For developing, add to JVM args in your IDE launch config dialog:
 
 #### Known limitations & problems
 
-- There is a problem with a parsing of commands containing a file or directory including a space - eg. it's not possible to create directory ```My dir``` using command ```mkdir "My dir"``` . This would be probably resolved with an upgrade to Spring Shell 2. 
+- There is a problem with a parsing of commands containing a file or directory including a space - eg. it's not possible to create directory ```My dir``` using command ```mkdir "My dir"``` . This should be probably resolved with an upgrade to Spring Shell 2.
 - It's not possible to remove root directory (```rm -R dir```) from root (```/```) directory. You have to use absolut path instead (```rm -R /dir```). It's caused by bug in Hadoop. See [HADOOP-15233](https://issues.apache.org/jira/browse/HADOOP-15233) for more details. Removing directory from another cwd is not affected. 
 
 ### Contact
