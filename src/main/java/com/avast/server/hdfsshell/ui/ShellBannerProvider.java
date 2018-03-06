@@ -15,10 +15,14 @@
  */
 package com.avast.server.hdfsshell.ui;
 
+import org.springframework.boot.ansi.AnsiColor;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.shell.plugin.support.DefaultBannerProvider;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author Jarred Li
@@ -26,6 +30,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ShellBannerProvider extends DefaultBannerProvider {
+
+    private SimpleBashPromptInterpreter bashPromptInterpreter;
 
     public String getBanner() {
         return "";//we are using Spring Boot for that
@@ -36,13 +42,18 @@ public class ShellBannerProvider extends DefaultBannerProvider {
         return ShellBannerProvider.versionInfo();
     }
 
+    @PostConstruct
+    public void init() {
+        bashPromptInterpreter = new SimpleBashPromptInterpreter.Builder("HDFS-shell CLI \\h").setAddResetEnd(false).build();
+    }
+
 	public String getWelcomeMessage() {
-		return "Welcome to HDFS-shell CLI";
+		return AnsiOutput.toString(AnsiColor.BRIGHT_GREEN, "Welcome to HDFS-shell CLI ", AnsiColor.DEFAULT);
 	}
-	
+
 	@Override
 	public String getProviderName() {
-		return "HDFS-shell CLI";
+		return bashPromptInterpreter.interpret();
 	}
 
     public static String versionInfo() {

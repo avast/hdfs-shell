@@ -4,7 +4,12 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hdfs.HdfsConfiguration;
+import org.apache.hadoop.hdfs.NameNodeProxies;
 import org.apache.hadoop.security.UserGroupInformation;
+import org.apache.hadoop.tools.GetUserMappingsProtocol;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.annotation.CliAvailabilityIndicator;
 import org.springframework.shell.core.annotation.CliCommand;
@@ -12,12 +17,15 @@ import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("SameParameterValue")
 @Component
 public class ContextCommands implements CommandMarker {
+    private static final Logger logger = LoggerFactory.getLogger(ContextCommands.class);
 
     private String currentDir;
     private Configuration configuration;
@@ -26,11 +34,53 @@ public class ContextCommands implements CommandMarker {
     private boolean showResultCode = false;
     private boolean failOnError;
 
+    private GetUserMappingsProtocol userMappingsProtocol;
 
-    @CliAvailabilityIndicator({"pwd", "cd"})
+    @PostConstruct
+    public void init() {
+        try {
+            final HdfsConfiguration conf = new HdfsConfiguration();
+            userMappingsProtocol = NameNodeProxies.createProxy(conf, FileSystem.getDefaultUri(conf),
+                    GetUserMappingsProtocol.class).getProxy();
+        } catch (Exception e) {
+            logger.error("Failed to create proxy to get user groups", e);
+        }
+    }
+
+    public String[] getGroupsForUser(String username) {
+        if (userMappingsProtocol != null) {
+            try {
+                return userMappingsProtocol.getGroupsForUser(username);
+            } catch (IOException e) {
+                return new String[0];
+            }
+        }
+        return new String[0];
+    }
+
+    @CliAvailabilityIndicator({"pwd", "cd", "groups"})
     public boolean isSimpleAvailable() {
         //always available
         return true;
+    }
+
+    @CliCommand(value = "groups", help = "Get groups for user")
+    public String groups(@CliOption(key = {""}) String username) throws IOException {
+        if (StringUtils.isEmpty(username)) {
+            username = whoami();
+        }
+        final StringBuilder result = new StringBuilder();
+        Arrays.stream(username.split("\\W+")).forEach((user) -> {
+                    if (!user.trim().isEmpty()) {
+                        user = user.trim();
+                        if (result.length() > 0) {
+                            result.append(System.lineSeparator());
+                        }
+                        result.append(user).append(" : ").append(Arrays.stream(this.getGroupsForUser(user)).collect(Collectors.joining(" ")));
+                    }
+                }
+        );
+        return result.toString();
     }
 
     @CliCommand(value = "set", help = "Set switch value")
