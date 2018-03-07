@@ -116,3 +116,14 @@ For developing, add to JVM args in your IDE launch config dialog:
 
 ### Contact
 Author&Maintainer: Ladislav Vitasek  - vitasek/@/avast.com
+
+### Help Us
+- If you like using HDFS Shell, please spread the word - eg. write a blog post about it. 
+- Do you like using it? Tell us!
+#### Companies using HDFS Shell (we know about)
+- Avast
+- Komercni banka
+- Ataccama Software
+
+
+
