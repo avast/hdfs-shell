@@ -70,7 +70,7 @@ public class ContextCommands implements CommandMarker {
             username = whoami();
         }
         final StringBuilder result = new StringBuilder();
-        Arrays.stream(username.split("\\W+")).forEach((user) -> {
+        Arrays.stream(username.split("\\s+")).forEach((user) -> {
                     if (!user.trim().isEmpty()) {
                         user = user.trim();
                         if (result.length() > 0) {
