@@ -84,3 +84,9 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test:1.4.2.RELEASE")
 }
 
+startScripts{
+    applicationName = 'hdfs-shell'
+    unixStartScriptGenerator.template = resources.text.fromFile('deploy/bin/hdfs_shell.unix.template.sh')
+    windowsStartScriptGenerator.template = resources.text.fromFile('deploy/bin/hdfs_shell.win.template.bat')
+}
+
