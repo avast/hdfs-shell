@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include file="config/basic.xml"/>
+<!--    <include file="config/basic.xml"/>-->
 
     <property name="LOG_FILE_DIR" value="log/"/>
     <property name="LOG_FILE" value="${LOG_FILE_DIR}hdfs-shell"/>
 
-    <property name="FILE_LOG_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%.-4level) - %cyan(%30.-30logger{30}) - %20.-20thread{30} - %message%n"/>
+    <property name="FILE_LOG_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%.-5level) - %cyan(%30.-30logger{30}) - %20.-20thread{30} - %message%n"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
       <target>System.out</target>
       <encoder>
         <charset>UTF-8</charset>
-        <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%.-4level) - %cyan(%30.-30logger{30}) - %20.-20thread{30} - %message%n</pattern>
+        <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) - %cyan(%30.-30logger{30}) - [%10.-10thread{20}] - %message%n</pattern>
       </encoder>
     </appender>
     <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
       <target>System.err</target>
       <encoder>
         <charset>UTF-8</charset>
-        <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%.-4level) - %cyan(%30.-30logger{30}) - %20.-20thread{30} - %message%n</pattern>
+        <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) - %cyan(%30.-30logger{30}) - [%10.-10thread{20}] - %message%n</pattern>
       </encoder>
     </appender>
 
@@ -33,15 +33,12 @@
       <appender-ref ref="STDOUT" />
     </appender>
 
-    <root level="${log_level:-INFO}">
+    <root level="${log_level:-WARN}">
         <appender-ref ref="ASYNC-SERVICE"/>
     </root>
 
 
-    <logger name="org.springframework" level="INFO"/>
-    <logger name="com.avast" level="DEBUG"/>
-    <logger name="com.avast.jmx" level="INFO"/>
-
-    <logger name="com.avast.server.wififinder.dao" level="INFO"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="com.avast" level="WARN"/>
 
 </configuration>
