@@ -5,58 +5,36 @@
     <property name="LOG_FILE_DIR" value="log/"/>
     <property name="LOG_FILE" value="${LOG_FILE_DIR}hdfs-shell"/>
 
-    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] --- %-40.40logger{39} : %m%n%wex"/>
+    <property name="FILE_LOG_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%.-4level) - %cyan(%30.-30logger{30}) - %20.-20thread{30} - %message%n"/>
 
-    <appender name="ERROR_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level>
-        </filter>
-        <file>${LOG_FILE}-error.log</file>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- daily rollover -->
-            <fileNamePattern>${LOG_FILE}-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!-- or whenever the file size reaches 100MB -->
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <!-- keep 30 days' worth of history -->
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-        </encoder>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <target>System.out</target>
+      <encoder>
+        <charset>UTF-8</charset>
+        <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%.-4level) - %cyan(%30.-30logger{30}) - %20.-20thread{30} - %message%n</pattern>
+      </encoder>
+    </appender>
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+      <target>System.err</target>
+      <encoder>
+        <charset>UTF-8</charset>
+        <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%.-4level) - %cyan(%30.-30logger{30}) - %20.-20thread{30} - %message%n</pattern>
+      </encoder>
     </appender>
 
-    <appender name="DEBUG_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
-        </filter>
-        <file>${LOG_FILE}-debug.log</file>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- daily rollover -->
-            <fileNamePattern>${LOG_FILE}-debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!-- or whenever the file size reaches 100MB -->
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <!-- keep 30 days' worth of history -->
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-            <!--<pattern>%d [%thread] %-5level %logger | %msg%n</pattern>-->
-        </encoder>
+    <!-- ===================================================== -->
+    <!-- Primary Async Appenders -->
+    <!-- ===================================================== -->
+    <property name="async_queue_size" value="${queue.size:-1024}" />
+    <property name="async_max_flush_time" value="${max.flush.time:-0}" />
+    <appender name="ASYNC-SERVICE" class="ch.qos.logback.classic.AsyncAppender">
+      <queueSize>${async_queue_size}</queueSize>
+      <maxFlushTime>${async_max_flush_time}</maxFlushTime>
+      <appender-ref ref="STDOUT" />
     </appender>
 
-
-    <root level="WARN">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="ERROR_LOG_FILE"/>
-        <appender-ref ref="DEBUG_LOG_FILE"/>
+    <root level="${log_level:-INFO}">
+        <appender-ref ref="ASYNC-SERVICE"/>
     </root>
 
 

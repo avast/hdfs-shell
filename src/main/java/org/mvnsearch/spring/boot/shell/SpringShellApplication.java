@@ -1,8 +1,14 @@
 package org.mvnsearch.spring.boot.shell;
 
-import com.avast.server.hdfsshell.commands.ContextCommands;
-import com.avast.server.hdfsshell.ui.PathCompleter;
-import jline.console.ConsoleReader;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
@@ -12,18 +18,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.shell.core.CommandResult;
 import org.springframework.shell.core.JLineShellComponent;
-import org.springframework.shell.support.logging.HandlerUtils;
 import org.springframework.util.ReflectionUtils;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import com.avast.server.hdfsshell.commands.ContextCommands;
+import com.avast.server.hdfsshell.ui.PathCompleter;
+
+import jline.console.ConsoleReader;
 
 /**
  * spring shell application
@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
  * @author Vitasek
  */
 public class SpringShellApplication {
+    private static final Logger LOG = LoggerFactory.getLogger(SpringShellApplication.class);
 
     public static int run(Object source, String... args) {
         return run(new Object[]{source}, args);
@@ -44,10 +45,6 @@ public class SpringShellApplication {
         }
         // disable hardcoded loggers to FINE level
         ConfigurableApplicationContext ctx = springApplication.run(args);
-        Handler[] handlers = Logger.getLogger( "" ).getHandlers();
-        for (Handler handler : handlers) {
-            handler.setLevel(Level.OFF);
-        }
         try {
             final BootShim bootShim = new BootShim(args, ctx);
             if (args.length > 0) {
@@ -69,11 +66,11 @@ public class SpringShellApplication {
                     return SpringApplication.exit(ctx, (ExitCodeGenerator) () -> -1);
                 } else {
                     if (commandResult.getResult() != null) {
-                        System.out.println(commandResult.getResult());
+                        LOG.info("{}", commandResult.getResult());
                     }
                 }
                 Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                    System.out.print(AnsiOutput.toString(AnsiColor.DEFAULT, " ", AnsiColor.DEFAULT));
+                    LOG.info(AnsiOutput.toString(AnsiColor.DEFAULT, " ", AnsiColor.DEFAULT));
                 }));//another new line on exit from interactive mode
             } else {
                 if (System.getProperty("daemon") != null) {
@@ -81,7 +78,7 @@ public class SpringShellApplication {
                     new UnixServer(bootShim, env.getProperty("socket.filepath", "/var/tmp/hdfs-shell.sock")).run();
                 } else {
                     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                        System.out.print(AnsiOutput.toString(AnsiColor.DEFAULT, System.lineSeparator(), AnsiColor.DEFAULT));
+                        LOG.info(AnsiOutput.toString(AnsiColor.DEFAULT, System.lineSeparator(), AnsiColor.DEFAULT));
                     }));//another new line on exit from interactive mode
                     new Timer().schedule(new InitCompletionTimerTask(bootShim), 5000);// hack
                     bootShim.run();
@@ -91,8 +88,7 @@ public class SpringShellApplication {
             e.printStackTrace();
             return -1;
         } finally {
-            System.out.print(AnsiOutput.toString(AnsiColor.DEFAULT, " ", AnsiColor.DEFAULT));
-            HandlerUtils.flushAllHandlers(Logger.getLogger(""));
+            LOG.info(AnsiOutput.toString(AnsiColor.DEFAULT, " ", AnsiColor.DEFAULT));
         }
         return 0;
     }

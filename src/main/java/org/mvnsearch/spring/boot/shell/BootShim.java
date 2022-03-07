@@ -1,5 +1,9 @@
 package org.mvnsearch.spring.boot.shell;
 
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
@@ -12,8 +16,6 @@ import org.springframework.shell.core.ExitShellRequest;
 import org.springframework.shell.core.JLineShellComponent;
 import org.springframework.util.StopWatch;
 
-import java.io.IOException;
-
 /**
  * Spring Boot Shim
  *
@@ -21,6 +23,7 @@ import java.io.IOException;
  * @author linux_china
  */
 public class BootShim {
+    private static final Logger LOG = LoggerFactory.getLogger(BootShim.class);
     private static StopWatch sw = new StopWatch("Spring Shell");
     private static CommandLine commandLine;
     private ConfigurableApplicationContext ctx;
@@ -92,7 +95,7 @@ public class BootShim {
         }
         sw.stop();
         if (shell.isDevelopmentMode()) {
-            System.out.println("Total execution time: " + sw.getLastTaskTimeMillis() + " ms");
+            LOG.info("Total execution time: " + sw.getLastTaskTimeMillis() + " ms");
         }
         return exitShellRequest;
     }

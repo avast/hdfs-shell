@@ -1,6 +1,10 @@
 package com.avast.server.hdfsshell.commands;
 
-import com.avast.server.hdfsshell.utils.BashUtils;
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,18 +19,14 @@ import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import com.avast.server.hdfsshell.utils.BashUtils;
 
 /**
  * @author Vitasek L.
  */
 @Component
 public class EditCommands implements CommandMarker {
-
-    private static final Logger logger = LoggerFactory.getLogger(EditCommands.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EditCommands.class);
 
     final HadoopDfsCommands hadoopDfsCommands;
     private final ContextCommands contextCommands;
@@ -61,7 +61,7 @@ public class EditCommands implements CommandMarker {
                 if (editFile(localTempFile)) {
                     final String putCommandResult = hadoopDfsCommands.runCommand("put", new String[]{"-f", localTempFile.getAbsolutePath(), p.toString()});
                     if (StringUtils.isEmpty(putCommandResult)) {
-                        logger.info("File {} was updated successfully", p.getName());
+                        LOG.info("File {} was updated successfully", p.getName());
                         return "File " + p.getName() + " was updated succesfully.";
                     }
                 } else {
@@ -98,7 +98,7 @@ public class EditCommands implements CommandMarker {
         final long lastModified = file.lastModified();
         final String[] editor = getEditor();
         if (editor.length == 0) {
-            System.out.println("No editor is defined");
+            LOG.info("No editor is defined");
             return false;
         }
 
@@ -109,7 +109,7 @@ public class EditCommands implements CommandMarker {
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         pb.redirectError(ProcessBuilder.Redirect.INHERIT);
         pb.redirectInput(ProcessBuilder.Redirect.INHERIT);
-        logger.info("Launching command {}", pb.command().stream().collect(Collectors.joining(" ")));
+        LOG.info("Launching command {}", pb.command().stream().collect(Collectors.joining(" ")));
 
         final Process process = pb.start();
         final int resultCode = process.waitFor();
