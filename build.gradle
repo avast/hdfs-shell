@@ -106,3 +106,9 @@ dependencies {
     }
 }
 
+startScripts{
+    applicationName = 'hdfs-shell'
+    unixStartScriptGenerator.template = resources.text.fromFile('deploy/bin/hdfs_shell.unix.template.sh')
+    windowsStartScriptGenerator.template = resources.text.fromFile('deploy/bin/hdfs_shell.win.template.bat')
+}
+
