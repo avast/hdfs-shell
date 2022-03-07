@@ -1,24 +1,26 @@
 package com.avast.server.hdfsshell.commands;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.shell.CommandFactory;
 import org.apache.hadoop.fs.shell.FsCommand;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.shell.Bootstrap;
 import org.springframework.shell.core.CommandResult;
 import org.springframework.shell.core.JLineShellComponent;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Vitasek L.
  */
 public class ContextCommandsTest {
-
+    private static final Logger LOG = LoggerFactory.getLogger(ContextCommandsTest.class);
     public void exists() throws Exception {
         Bootstrap bootstrap = new Bootstrap();
 
@@ -35,7 +37,7 @@ public class ContextCommandsTest {
         FsCommand.registerCommands(commandFactory);
         final String[] names = commandFactory.getNames();
         final String collect = Arrays.stream(names).map(item -> "\"" + item.replace("-", "") + "\"").collect(Collectors.joining(","));
-        System.out.println(collect);
+        LOG.info(collect);
         Arrays.stream(names).map(commandFactory::getInstance).forEach(item -> {
             String description = "";
             final String[] sentences = item.getDescription().split("\\.");
@@ -53,11 +55,8 @@ public class ContextCommandsTest {
                     "        return runCommand(\"%s\", path);\n" +
                     "    }\n", item.getCommandName(), description, item.getCommandName());
 
-            System.out.println(cliCommand);
-            System.out.println(content);
-
-            System.out.println();
-
+            LOG.info(cliCommand);
+            LOG.info(content);
         });
 
     }

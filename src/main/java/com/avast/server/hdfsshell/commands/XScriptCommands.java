@@ -15,6 +15,21 @@
  */
 package com.avast.server.hdfsshell.commands;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.mvnsearch.spring.boot.shell.ClientConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -22,24 +37,17 @@ import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.JLineShellComponent;
 import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.shell.core.annotation.CliOption;
-import org.springframework.shell.support.logging.HandlerUtils;
 import org.springframework.shell.support.util.IOUtils;
 import org.springframework.shell.support.util.MathUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-
-import java.io.*;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.logging.Logger;
 
 /**
  * Copied from original ScriptCommand, the code is quite ugly...
  */
 @Component
 public class XScriptCommands implements CommandMarker {
-    protected final Logger logger = HandlerUtils.getLogger(getClass());
+    protected static final Logger logger = LoggerFactory.getLogger(ClientConnection.class);
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -63,9 +71,9 @@ public class XScriptCommands implements CommandMarker {
 			while ((line = in.readLine()) != null) {
 				i++;
 				if (lineNumbers) {
-					logger.fine("Line " + i + ": " + line);
+					logger.debug("Line " + i + ": " + line);
 				} else {
-					logger.fine(line);
+					logger.debug(line);
 				}
 				if (!"".equals(line.trim())) {
 					boolean success = shell.executeScriptLine(line);
@@ -84,7 +92,7 @@ public class XScriptCommands implements CommandMarker {
 		} finally {
 			IOUtils.closeQuietly(inputStream, in);
 			double executionDurationInSeconds = (System.nanoTime() - startedNanoseconds) / 1000000000D;
-			logger.fine("Script required " + MathUtils.round(executionDurationInSeconds, 3) + " seconds to execute");
+			logger.debug("Script required " + MathUtils.round(executionDurationInSeconds, 3) + " seconds to execute");
 		}
 	}
 
@@ -124,7 +132,7 @@ public class XScriptCommands implements CommandMarker {
 			}
 			return list;
 		} catch (IOException ex) {
-			logger.fine("Cannot find path " + path);
+			logger.debug("Cannot find path " + path);
 			// return Collections.emptyList();
 			throw new RuntimeException(ex);
 		}

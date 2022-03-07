@@ -1,19 +1,21 @@
 package org.mvnsearch.spring.boot.shell;
 
-import org.newsclub.net.unix.AFUNIXServerSocket;
-import org.newsclub.net.unix.AFUNIXSocketAddress;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import org.newsclub.net.unix.AFUNIXServerSocket;
+import org.newsclub.net.unix.AFUNIXSocketAddress;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Vitasek L.
  */
 @SuppressWarnings("Duplicates")
 public class UnixServer {
-
+    private static final Logger LOG = LoggerFactory.getLogger(UnixServer.class);
     public BootShim bootShim;
     private final String path;
 
@@ -38,10 +40,10 @@ public class UnixServer {
 
         try (AFUNIXServerSocket server = AFUNIXServerSocket.newInstance()) {
             server.bind(new AFUNIXSocketAddress(socketFile));
-            System.out.println("server: " + server);
+            LOG.info("server: " + server);
 
             while (!Thread.interrupted()) {
-                System.out.println("Waiting for connection...");
+                LOG.info("Waiting for connection...");
                 executorService.execute(new ClientConnection(this, server.accept()));
             }
         } finally {
