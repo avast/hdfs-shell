@@ -1,7 +1,6 @@
 buildscript {
     ext {
         springBootVersion = "1.5.22.RELEASE"
-        springKafkaVersion = "1.3.11.RELEASE"
         slf4jVersion = "1.7.30"
         logbackVersion = "1.2.3"
     }
