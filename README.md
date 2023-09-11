@@ -39,7 +39,7 @@ There are 3 possible usecases:
 - It's working on both Windows/Linux Hadoop 2.6.0
 
 #### Download
-- [Download binary](https://github.com/avast/hdfs-shell/releases/download/v1.0.7/hdfs-shell-1.0.7.zip)
+- [Download binary](https://github.com/avast/hdfs-shell/releases/download/v1.0.8/hdfs-shell-1.0.8.zip)
 
 #### Configuring launch script(s) for your environment
 HDFS-Shell is a standard Java application. For its launch you need to define 2 things on your classpath:
